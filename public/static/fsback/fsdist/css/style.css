@@ -1,0 +1,11 @@
+@charset "utf-8";			
+.table th,.table tr { 
+white-space: nowrap !important;
+}
+
+.form-group .error{
+    color: #dd4b39;
+}
+
+
+		

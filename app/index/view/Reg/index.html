@@ -1,0 +1,168 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>用户注册</title>
+     <link rel="stylesheet" href="{__1INDEX__}/layui/css/layui.css">
+     <script src="{__1INDEX__}/layui/layui.all.js"></script>
+     <script src="{__1INDEX__}/layui/jquery-1.8.3.js"></script>
+     
+     
+     
+ </head>
+ <style>
+     body{
+        background: #d2d6de;
+     }
+     b{
+		color: #ea6f5a;
+		padding-right: 20px;
+	}
+    p{
+        font-size: 38px;
+        text-align: center;
+    }
+
+     
+     .container{
+        width: 500px;
+        margin:0 auto;
+        
+        margin-top: 200px;
+        background: #fff;
+        
+     }
+     form {
+         padding:20px;
+     }
+     .layui-btn{
+        background-color: #ea6f5a;
+     }
+
+     
+ </style>
+ <body>
+    <div class="container">
+        <p><a href="{:url('/index/index')}"><b>i 港湾</b></a>注册</p>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+              <label class="layui-form-label">用户名</label>
+              <div class="layui-input-block">
+                <input type="text" name="uname" required  lay-verify="required|uname|verifyUser" placeholder="用户名" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-block">
+                  <input type="password" name="pwd" required  lay-verify="required|pwd" placeholder="密码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">电话</label>
+                <div class="layui-input-block">
+                  <input type="number" name="tel" required  lay-verify="required|number|phone" placeholder="手机号11位" autocomplete="off" class="layui-input">
+                </div>
+              </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">性别</label>
+              <div class="layui-input-block">
+                <input type="radio" name="gender" value="1" title="男" checked>
+                <input type="radio" name="gender" value="0" title="女" >
+              </div>
+            </div>
+            
+            <div class="layui-form-item">
+              <div class="layui-input-block">
+                <button class="layui-btn" type="button" lay-submit lay-filter="formDemo">确认</button> 
+              </div>
+              <a style="color:rgb(40, 132, 207);padding-left:90px" href="{:url('/login/index')}">已有账号？直接去登录</a>
+            </div>
+            
+          </form>
+           
+          
+    </div> 
+<script>
+    
+    layui.use('form', function(){
+        var form = layui.form;
+        form.render();
+        
+        //监听提交
+        form.on('submit(formDemo)', function(d){
+          $.ajax({
+            url:'add',
+            type:'post',
+            dataType:null,
+            data:d.field,
+            success:function(res)
+            {
+              //数据表中用户名已存在
+              if(res=='true'){
+                layer.alert('恭喜您注册成功', {icon: 6}, function(index){
+                window.location.href="{:url('/login/index')}";
+                layer.close(index);
+                });      
+              }else{
+                layer.msg('网络忙,请稍后重新注册！', {icon: 5});
+              }
+            },
+            error:function(){
+              layer.msg('网络忙,请稍后重新注册！', {icon: 5});
+            }   
+          })
+        });
+
+        //单字段验证，注册时用户名不能重复
+          $("[name='uname']").blur(function(){
+            var data = {};
+            data.uname = $("[name='uname']").val();
+            $.ajax({
+              url:'verify',
+              type:'post',
+              dataType:null,
+              data:data,
+              success:function(res)
+              {
+                //数据表中用户名已存在
+                if (res == 'true') {
+                  layer.msg('该用户名已存在',{icon: 5});
+                  
+                }
+              },
+              error:function(){
+                layer.msg('出错啦！', {icon: 5});
+              }
+              
+            })
+          })
+           
+        
+
+        
+        //表单验证
+        form.verify({
+          uname: function(value, item){ //value：表单的值、item：表单的DOM对象
+              if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
+              return '用户名不能有特殊字符';
+              }
+              if(/(^\_)|(\__)|(\_+$)/.test(value)){
+              return '用户名首尾不能出现下划线\'_\'';
+              }
+              if(/^\d+\d+\d$/.test(value)){
+              return '用户名不能全为数字';
+              }
+          }
+          
+          
+          ,pwd: [
+              /^[\S]{6,12}$/
+              ,'密码必须6到12位，且不能出现空格'
+          ] 
+        });    
+    });
+    
+</script>
+ </body>
+ </html>

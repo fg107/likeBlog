@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>后台管理系统</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="stylesheet" href="{__BC__}/bootstrap/dist/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{__BC__}/font-awesome/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="{__BC__}/Ionicons/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{__FSDIST__}/css/AdminLTE.min.css">
+  <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+        page. However, you can choose any other skin. Make sure you
+        apply the skin class to the body tag so the changes take effect. -->
+  <link rel="stylesheet" href="{__FSDIST__}/css/skins/skin-blue.min.css">
+  <link rel="stylesheet" href="{__FSDIST__}/css/style.css">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <!-- Google Font -->
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini fixed">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        
+        <small>用户管理</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="{:url('/index/welcome')}"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li class="active">用户管理</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+
+      <div class="row">
+        <div class="col-xs-12">
+         <div class="box">
+            <div class="box-header with-border">
+              <!--<h3 class="box-title">新增</h3>-->
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" id="adduser" enctype="multipart/form-data">
+              <div class="box-body">
+                
+				<div class="form-group">
+                  <label for="uname">用户名</label>
+                  <input type="text" class="form-control" name="uname" id="uname" placeholder="用户名">
+                </div>
+				
+				<div class="form-group">
+                  <label for="pwd">密码</label>
+                  <input type="password" class="form-control" name="pwd" id="pwd" placeholder="密码">
+                </div>
+				
+				<div class="form-group">
+                  <label for="group_id">选择角色</label>
+                  <select class="form-control" name="group_id">
+                    <option value="">请选择角色</option>
+                    {volist name="group" id="vo"}
+                    <option value="{$vo.id}">{$vo.title}</option>
+                    {/volist}
+                  </select>
+                </div>
+				
+				<div class="form-group">
+				<label for="status">状态</label>
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="status" value="1" checked="checked">
+					启用
+                    </label>
+					<label>
+                      <input type="radio" name="status" value="0">
+                      禁用
+                    </label>
+                  </div>
+                </div>
+                
+				
+              </div>
+              <!-- /.box-body -->
+
+              <div class="box-footer text-center">
+                <button type="submit" class="btn btn-primary">提交</button>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<a class="btn btn-success" href="{:url('/auth/index')}">返回列表</a>
+              </div>
+            </form>
+          </div> 
+          
+         
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+    </section>
+    <!-- /.content -->
+  
+  
+
+<!-- jQuery 3 -->
+<script src="{__BC__}/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="{__BC__}/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="{__FSDIST__}/js/adminlte.min.js"></script>
+
+
+
+<script src="{__FSDIST__}/js/jquery.form.min.js"></script>
+<script src="{__FSDIST__}/js/jquery.validate.js"></script>
+
+
+<!--layer-->
+<script src="/static/fsback/fslayer/layer.js"></script>
+
+
+<script>
+    $(function () {       	 
+	$("#adduser").validate({
+	rules:{
+		uname:{
+			required:true,	
+			remote:{
+				url:'checkuname',
+				type:'POST',
+			},
+		},
+		pwd:{
+			required:true,	
+			//minlength:2,
+			maxlength:255,	
+		},
+		group_id:{
+			required:true,		
+		},
+		
+	},
+	messages:{
+		uname:{
+			required:'请输入用户名',
+			remote:'用户名已存在，请更换！',
+		},
+		pwd:{
+			required:'请输入密码',
+			//minlength:'密码不小于2个字符',
+			maxlength:'密码不大于255个字符',
+		},
+		group_id:{
+			required:'请选择角色',
+			
+		},
+		
+	},
+	  submitHandler: function(form) {    //结合表单验证插件validate 和表单插件jquery.form.js 做ajax 提交
+			$(form).ajaxSubmit({
+				url:'add',
+				type:'POST',
+				dataType:null,
+				//clearForm:true,
+				success:function(res){
+					var host = window.location.host;
+					if(res=='true'){
+						layer.alert('添加成功！', {icon: 6}, function(index){
+							window.location.href="{:url('/auth/index')}";
+						layer.close(index);
+						});
+					}else{
+						layer.msg('添加失败！', {icon: 5});
+					}
+					
+				},
+				error:function(){
+					layer.msg('出错啦！', {icon: 5});
+				}
+				
+			});
+	},
+	
+	
+})
+
+    });
+</script>
+</body>
+</html>

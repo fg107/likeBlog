@@ -1,0 +1,312 @@
+{include file="public/header"}
+<div class="what_con ">
+    <div class="what_left">
+        <div class="what_bread">
+            <a class="what_a" href=""><i class="layui-icon layui-icon-home" style="font-size: 18px; color:  #ea6f5a;"></i> 首页</a>
+            {volist name="$list" id="vo"}
+            > <a class="what_a" href="">{$vo.catname}</a>
+            {/volist}
+             
+        </div>
+        
+        <div class="de_re">
+            {volist name="res" id="v"}
+            <p class="de_h1">{$v.title}</p>
+            <p class="de_ti">发布时间:{$v.create_time}</p>
+            <div class="de_pr">
+                <img src="/images/preface_bg.jpg" alt="">
+                <span class="de_sp">{$v.preface}</span>
+            </div>
+            <div class="ke_de">
+                关键字:{$v.keyword}
+            </div>
+            <div class="de_co">
+                {$v.content}
+            </div>
+            {/volist}            
+            <div   class="de_comm">
+                 
+                <div class="ui comments">
+                    <h3 id="list" class="ui dividing header">评论(0)</h3>
+                    <div class ="commFrame" id="commFrame">
+                        {volist name="comm" id="vo"}
+                        <div class="comment {$vo.id}"  >
+                        {if condition="empty($vo.avator) AND $vo.gender eq 1 "}
+                            <a class="avatar">
+                                <img src="/images/default-avator/he.jpg">
+                            </a>
+                        {elseif condition="empty($vo.avator) AND $vo.gender eq 0 "}
+                            <a class="avatar">
+                                <img src="/images/default-avator/she.jpg">
+                            </a>
+                        {/if}
+                            <div class="content">
+                                <a class="author">{$vo.uname}</a>
+                                <div class="metadata">
+                                    <span class="date">{$vo.create_time}</span>
+                                </div>
+                                <div class="text">{$vo.con} </div>
+                                <div class="actions">
+                                    <a class="reply" session_uname="<?php echo session('uname')?>" uname="{$vo.uname}"com_id="{$vo.id}"  pid="{$vo.pid}" onclick="reply(this)">回复</a>
+                                    <a com_id="{$vo.id}" session_uname="<?php echo session('uname')?>" uname="{$vo.uname}" onclick="delete_this(this)" class="save">删除</a> 
+                                </div>
+                            </div>
+                            {if condition="!empty($vo.child)"}
+                            {volist name="$vo.child" id="v"}
+                        
+                            <div class="comments {$v.id}">
+                                <div class="comment" >
+                                    {if condition="empty($v.avator) AND $v.gender eq 1 "}
+                                    <a class="avatar">
+                                        <img src="/images/default-avator/he.jpg">
+                                    </a>
+                                    {elseif condition="empty($v.avator) AND $v.gender eq 0 "}
+                                    <a class="avatar">
+                                        <img src="/images/default-avator/she.jpg">
+                                    </a>
+                                    {/if}
+                                    <div class="content">
+                                        <a class="author">{$v.uname}</a>
+                                        <div class="metadata">
+                                            <span class="date">{$v.create_time}</span>
+                                        </div>
+                                        <div class="text">{$v.con} </div>
+                                        <div class="actions">
+                                             
+                                            <a com_id="{$v.id}" session_uname="<?php echo session('uname')?>" uname="{$v.uname}" onclick="delete_this(this)" class="save">删除</a>
+                                             
+                                            
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/volist}
+                            {/if}
+                        </div>
+                        
+                        {/volist}
+                    </div>
+                    
+                    
+                     
+                    <form class="ui reply form">
+                        <!-- 发表留言头像区 -->
+                        <div class="comment">
+                            {if condition = "!empty($info) AND $info.gender eq 0"}
+                            <a class="avatar">
+                                <img id="ava" src="/images/default-avator/she.jpg">
+                            </a>
+                            {elseif condition = "!empty($info) AND $info.gender eq 1"}
+                                <a class="avatar">
+                                    <img id="ava" src="/images/default-avator/he.jpg">
+                                </a>
+                            {/if}
+                        </div>
+                        <div class="field " style="position:relative;left:49px;top:5px;">
+                            <input type="hidden" name="blog_id" value="{$id}">
+                            <input type="hidden" name="pid" value="0">
+                            <input type="hidden" name="uid" value="<?php echo session('uid');?>">
+                            <input type="hidden" name="session_uname" value="<?php echo session('uname');?>">
+                            <textarea name="con" id="con" placeholder="来说几句吧......" ></textarea>
+                        </div>
+                        <div style="position:relative;left:49px;top:-5px;" class="ui blue labeled submit  icon button" id="comm-btn">
+                            <i class="icon edit"></i> 发表 
+                        </div>
+                    </form>
+                </div> 
+            </div>
+             
+        </div>
+
+       
+        
+    </div>
+    <div class="what_right">
+        <div class="layui-carousel " id="test1">
+            <div carousel-item>
+                {volist name="ad" id="v1" key="k"}
+                 
+                {volist name = "v1.ad_code" id="v2"}
+              <div  >
+                    <a href="{$v1.link}">
+                        <img class="wh_ri" src="/uploads/{$v2} " alt="">
+                        <p class="what_pi">{$v1.description}</p>
+                    </a>
+              </div>
+              {/volist}
+             
+              {/volist}
+               
+            </div>
+        </div>
+        <div class="what_ca">
+            <p class="what_po">热门排行</p>
+            <div class="commentItem h-30"  >
+                <span class="hot-xie color01 p-r-xs pull-left">1.</span>
+                <a class="font15 color01 ellipsis-line pull-left" href="">什么是面向对象？它与面向过程的区别</a>
+            </div>
+             
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+<script src="{__SEMANTIC__}/semantic.min.js"></script>
+<script>
+
+    layui.use(['carousel','layer'], function(){
+    
+        var carousel = layui.carousel;
+        var layer = layui.layer;
+        carousel.render({
+            elem: '#test1'
+            ,width: '100%' 
+            ,height:'300px' 
+            ,arrow: 'always'  
+            
+        });
+    });
+
+
+
+ 
+        
+//判断登录状态以及评论框内容是否为空
+       
+        var count = $(".comment").length-1 ;
+        $("#list").text("评论("+count+")");
+        $("#comm-btn").click(function(){ 
+            var uid = $("[name='uid']").val();  
+            //参数准备
+            var con = $("#con").val(); 
+            //当前登录者姓名
+            var  uname = $("[name='session_uname']").val();  
+                
+            if (uid == '' )
+            {      
+                layer.open({
+                    type: 2, 
+                    content:'/login/index',
+                    area:['60%','60%'],
+                    btn:['回到当前页面？'],
+                    anim: 5,
+                    maxmin: true,
+                    end:function(index,layero){
+                        location.reload();
+                    }
+
+                })
+                return;
+            }
+            if (con=='') {
+                layer.msg('评论不能为空',{icon: 5});
+                return false;
+            }
+            loadmessage(con,uname);
+            count++;
+            $("#list").text("评论("+count+")");
+        });
+        
+       
+         
+        
+        //清除评论框
+        function clearComm()
+        {
+            $("#con").val('');
+            $("[name='pid']").val(0);
+            $("#con").attr("placeholder","来说几句吧......");
+
+        }
+         
+
+
+
+        //回复
+        function reply(obj)
+        {
+             
+            var com_id = $(obj).attr("com_id");
+             
+            var uname = $(obj).attr("uname");
+            var session_uname = $(obj).attr("session_uname");
+            if (session_uname == '') {
+                layer.open({
+                    type: 2, 
+                    content:'/login/index',
+                    area:['60%','60%'],
+                    btn:['回到当前页面？'],
+                    anim: 5,
+                    maxmin: true,
+                    end:function(index,layero){
+                        location.reload();
+                    }
+
+                })
+                return;
+                
+            }
+            if (uname == session_uname ) {
+                
+                layer.alert('不能回复自己', {icon: 2}, function(index){
+                    layer.close(index);
+                });
+                return;
+            }
+            $("#con").attr("placeholder","@"+ uname).focus();
+            $("[name='pid']").val(com_id);
+            
+
+        }
+
+        // 删除
+        function delete_this(obj)
+        {
+            var count = $(".comment").length-1 ;
+        
+            var uname = $(obj).attr("uname");
+            var session_uname = $(obj).attr("session_uname");
+
+            if (session_uname == '') {
+                layer.open({
+                    type: 2, 
+                    content:'/login/index',
+                    area:['60%','60%'],
+                    btn:['回到当前页面？'],
+                    anim: 5,
+                    maxmin: true,
+                    end:function(index,layero){
+                        location.reload();
+                    }
+
+                })
+                return;
+                
+            }
+            if (uname !== session_uname ) {
+                
+                layer.alert('只能删除自己的评论', {icon: 2}, function(index){
+                    layer.close(index);
+                });
+                return;
+            }
+            var data={};
+            data.com_id = $(obj).attr("com_id");
+            $.post('del',data,function(res){      
+                if(res){ 
+                    layer.msg('删除成功',{icon:6}); 
+                    
+                    $("."+data.com_id).detach(); 
+                    count--;
+                    $("#list").text("评论("+count+")");
+                }
+            },"json")
+            
+             
+        }
+
+         
+
+</script>
+</body>
+</html>

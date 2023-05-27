@@ -1,0 +1,133 @@
+{include file="public/header"}
+<div class="what_con ">
+    <div class="what_left">
+        <div class="what_bread">
+            <a class="what_a" href=""><i class="layui-icon layui-icon-home" style="font-size: 18px; color:  #ea6f5a;"></i> 首页</a>
+            {volist name="$list" id="vo"}
+            > <a class="what_a" href="">{$vo.catname}</a>
+            {/volist}
+             
+        </div>
+        
+        <div class="what_ko">
+            
+            <div class="what_swiper">
+                <div class="layui-carousel" id="test1">
+                    <div carousel-item>
+                        {volist name="res" id="v" key="k"}
+                        {if condition = "$k lt 5"}
+                        {volist name = "$v.thumb" id="v1"}
+                      <div  >
+                            <a href="{:url('/detail/index')}?aid={$v.id}&cid={$v.catid}">
+                                <img class="wh_im" src="/uploads/{$v1} " alt="">
+                                <p class="what_as">{$v.title}</p>
+                            </a>
+                      </div>
+                      {/volist}
+                      {/if}
+                      {/volist}
+                       
+                    </div>
+                </div>
+            </div>
+             
+            
+            
+            <div class="what_title">
+                <ul> 
+                    {volist name="res" id="v" key="k"}
+                    {if condition = "($k gt 4) AND ($k lt 10)">}
+                    <li class="what_li">
+                        <i class="layui-icon layui-icon-diamond" style="font-size: 14px; color:  #ea6f5a;"></i>
+                        <a class="ellipsis-line" href="{:url('/detail/index')}?aid={$v.id}&cid={$v.catid}">{$v.title}</a>
+                    </li>
+                    {/if}
+                    {/volist}
+                </ul>
+            </div>
+            
+            
+        </div>
+        <div class="wht_big">
+            {volist name="res" id="v" key="k"}
+            {if condition = "$k gt 9"}
+            {volist name = "$v.thumb" id="v1"}
+            
+            <div class="wht_tr">
+                <div class="wht_l">
+                    <a href="{:url('/detail/index')}?aid={$v.id}&cid={$v.catid}">
+                        <img class="wht_img" src="/uploads/{$v1}" alt="">
+                    </a>
+
+                </div>
+                <div class="wht_r">
+                    <a href="{:url('/detail/index')}?aid={$v.id}&cid={$v.catid}" class="wht_ae">{$v.title}</a>
+                    <span class="wht_sp">{$v.preface}</span>
+                    <div class="wht_poo">
+                        <a class="lk_l" href="">{$v.catname}</a>
+                        <span class="lk_r">{$v.create_time}</span>
+                    </div>
+                </div>
+            </div>
+            {/volist}
+            {/if}
+            {/volist}
+        </div>
+        
+        
+        
+    </div>
+    <div class="what_right">
+        <div class="layui-carousel " id="test2">
+            <div carousel-item>
+                {volist name="ad" id="v1" key="k"}
+                 
+                {volist name = "v1.ad_code" id="v2"}
+              <div  >
+                    <a href="{$v1.link}">
+                        <img class="wh_ri" src="/uploads/{$v2} " alt="">
+                        <p class="what_pi">{$v1.description}</p>
+                    </a>
+              </div>
+              {/volist}
+             
+              {/volist}
+               
+            </div>
+        </div>
+        <div class="what_ca">
+            <p class="what_po">热门排行</p>
+            <div class="commentItem h-30"  >
+                <span class="hot-xie color01 p-r-xs pull-left">1.</span>
+                <a class="font15 color01 ellipsis-line pull-left" href="">正规渠道sdasdasdadasda放心买，消费权益有保障</a>
+            </div>
+             
+        </div>
+    </div>
+    
+</div>
+<script>
+    layui.use('carousel', function(){
+      var carousel1 = layui.carousel;
+      var carousel2 = layui.carousel;
+      //建造轮播实例1
+      carousel1.render({
+        elem: '#test1'
+        ,width: '100%'
+        ,height:'300px' //设置容器宽度
+        ,arrow: 'always' //始终显示箭头
+        //,anim: 'updown' //切换动画方式
+      });
+
+      carousel2.render({
+        elem: '#test2'
+        ,width: '100%' 
+        ,height:'300px'//设置容器宽度
+        ,arrow: 'always' //始终显示箭头
+        //,anim: 'updown' //切换动画方式
+      });
+    });
+</script>
+</body>
+</html>
+ 

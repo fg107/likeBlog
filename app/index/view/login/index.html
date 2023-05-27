@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>i 港湾登录</title>
+	<!-- Tell the browser to be responsive to screen width -->
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<!-- Bootstrap 3.3.7 -->
+	<link rel="stylesheet" href="{__BC__}/bootstrap/dist/css/bootstrap.min.css">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="{__BC__}/font-awesome/css/font-awesome.min.css">
+	<!-- Ionicons -->
+	<link rel="stylesheet" href="{__BC__}/Ionicons/css/ionicons.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="{__FSDIST__}/css/AdminLTE.min.css">
+	<!-- iCheck -->
+	<link rel="stylesheet" href="{__FSDIST__}/css/skins/skin-blue.min.css">
+	<link rel="stylesheet" href="{__FSDIST__}/css/style.css">
+	<script src="{__BC__}/jquery/dist/jquery.min.js"></script>
+	<!-- Bootstrap 3.3.7 -->
+	<script src="{__BC__}/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="{__1INDEX__}/layui/layui.all.js"></script>
+	<script src="{__1INDEX__}/layui/jquery-1.8.3.js"></script>
+	<script src="{__FSDIST__}/js/jquery.form.min.js"></script>
+	<script src="{__FSDIST__}/js/jquery.validate.js"></script>
+	 
+
+  
+  	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  	<style>
+	  	.btn-primary {
+			background-color: #ea6f5a;
+			border-color: #ea6f5a;
+		}
+
+		b{
+			color: #ea6f5a;
+			padding-right: 20px;
+		}
+  	</style>
+</head>
+<body class="hold-transition login-page">
+	 
+	<div class="login-box">
+	<div class="login-logo">
+		<a href="{:url('/index')}"><b>i 港湾</b>登录</a>
+	</div>
+	<!-- /.login-logo -->
+	<div class="login-box-body">
+		<p class="login-box-msg">请输入账户密码</p>
+
+		<form  method="post" id="lform">
+		<div class="form-group has-feedback">
+			<input type="text" name="uname" class="form-control" placeholder="账户">
+			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+		</div>
+		<div class="form-group has-feedback">
+			<input type="password" name="pwd" class="form-control" placeholder="密码">
+			<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+		</div>
+		
+		<div class="row">
+		
+		<div class="form-group  col-xs-6">
+			<input type="text" class="form-control" name="captcha" placeholder="验证码">
+			<span class="glyphicon  form-control-feedback"></span>
+		</div>
+		<div class="form-group  col-xs-6">
+			<img id="verify_img" src="{:url('/login/verify')}" alt="验证码" onclick="refreshVerify()">
+			<!--<a href="javascript:refreshVerify()">点击刷新</a>-->
+		</div>
+		</div>
+		
+		<div class="row">
+			
+			<!-- /.col -->
+			<div class="col-xs-12">
+			<button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
+			<a href="{:url('/reg/index')}">没有账号？去注册</a>
+			</div>
+			<!-- /.col -->
+		</div>
+		</form>
+
+	
+
+	</div>
+	
+	</div>
+
+<script>
+ 
+ 
+	function refreshVerify() {
+		var ts = Date.parse(new Date())/1000;
+		$('#verify_img').attr("src", "/login/verify?id="+ts);
+	}
+ 
+
+
+ 
+	$(function(){
+		$('#lform').validate({
+			rules:{
+				uname:{
+					required:true,
+					minlength:2,
+				},
+				pwd:{
+					required:true,
+					rangelength:[2,32],
+				},
+				captcha:{
+					required:true,
+					remote:{
+						url:"{:url('/login/checkcapcha')}",
+						type:'POST',
+					},
+				}
+			},
+			messages:{
+				uname:{
+					required:'请输入用户名',
+					minlength:'用户名不小于2个字符',
+				},
+				pwd:{
+					required:'请输入密码',
+					rangelength:'密码长度在2-32个字符之间',
+				},
+				captcha:{
+					required:'请输入验证码',
+					remote:'验证码错误！',
+				}
+			},
+
+			
+			submitHandler: function(form) {    //结合表单验证插件validate 和表单插件jquery.form.js 做ajax 提交
+					$(form).ajaxSubmit({
+						url:'index',
+						type:'POST',
+						dataType:'json',
+						//clearForm:true,
+						success:function(res){
+							// var host = window.location.host;
+							if(res.uid){
+								layer.alert('登陆成功', {icon: 6}, function(index){
+								window.location.href="{:url('/index')}";
+								layer.close(index);
+								});      
+							}else if(res.status==0){
+								layer.msg(res.msg, {icon: 5});
+							}
+							
+						},
+						error:function(){
+							layer.msg('出错啦！', {icon: 5});
+						}
+						
+					});
+			},
+			
+			
+		})
+	})
+</script>
+
+
+</body>
+</html>

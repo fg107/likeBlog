@@ -1,0 +1,152 @@
+@charset "utf-8";
+body{
+	font-family: "微软雅黑",Helvetica,"黑体",Arial,Tahoma;
+    font-size: .875rem !important;
+}
+#login{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	padding: 0 15px;
+	height: auto;
+	margin-top:0 !important;
+}
+
+.logo{
+	width: 80px;
+	height: 80px;
+	display:block;
+}
+
+
+
+
+
+.form-control:focus{
+    border-color:#ccc;
+    webkit-box-shadow:none;
+    box-shadow:none;
+}
+
+ .form-control{
+	padding: 0 0 0 40px;
+	height: 45px;
+	line-height: 45px;
+	outline:none;
+}
+
+input,input:focus{
+   border:1 solid #ccc;
+    webkit-box-shadow:none;
+    box-shadow:none;
+    outline:none;
+    border-radius: .25rem;
+}
+
+#uname{
+	background:url('../images/u6763.png') center left 10px no-repeat;
+	background-size: auto 20px;
+}
+
+
+#email{
+	background:url('../images/eamil.png') center left 10px no-repeat;
+	background-size: auto 20px;
+}
+
+.yzm{
+	position: relative;
+}
+
+#code{
+	background:url('../images/u6824.png') center left 10px no-repeat;
+	background-size: auto 20px;
+	
+
+}
+
+
+
+
+.sendcode{
+	border:0;
+	background-color: #fff;
+	font-size: 12px;
+	color: #999;
+	position: absolute;
+	top:22.5px;
+	right: 5px;
+	display: block;
+	height: 40px;
+	
+}
+
+
+
+#password{
+	background:url('../images/u7404.png') center left 10px no-repeat;
+	background-size: auto 20px;
+}
+
+.btn-login,.btn-login:hover{
+	width: 100%;
+	background-color:#1ABC9C;
+	color: #fff;
+	height: 45px;
+}
+
+.btn:focus,.btn:active:focus,.btn:active:focus,.btn:focus,.btn:active.focus,.btn:active.focus{
+    outline: none;
+}
+
+.forgpwd,.forgpwd:hover{
+	color:#1ABC9C;
+	font-size: 12px;
+}
+
+.tag,.tag:hover{
+	display: block;
+	margin: 20px auto;
+	text-align: center;
+	color:#1ABC9C;
+}
+
+.tagor{
+	margin: 20px auto;
+	text-align: center;
+}
+
+.other{
+	margin: 20px auto;
+	padding: 0 15px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	line-height: 2;
+
+}
+
+.other .wxlog,.other .wblog{
+	display: flex;
+	max-width: 100%;
+	justify-content: space-around;
+	border:1px solid #ccc;
+	padding: 5px 80px;
+	margin-bottom: 30px;
+	border-radius: .25rem;
+}
+
+.other .wxlog{
+	background:url('../images/u7402.svg') center left 10px no-repeat;
+	background-size: auto;
+}
+
+.other .wblog{
+	background:url('../images/u7403.svg') center left 10px no-repeat;
+	background-size: auto;
+}
+
+.yhxy{
+	color: #1ABC9C;
+}

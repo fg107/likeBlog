@@ -1,0 +1,115 @@
+{include file="public/header"}
+    <div class="left-side-menu " style="padding-top: 80px; float: left;" >
+        <div class="lsm-expand-btn">
+            <div class="lsm-mini-btn">
+                <label>
+                    <input type="checkbox" checked="checked">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="30" />
+                        <path class="line--1" d="M0 40h62c18 0 18-20-17 5L31 55" />
+                        <path class="line--2" d="M0 50h80" />
+                        <path class="line--3" d="M0 60h62c18 0 18 20-17-5L31 45" />
+                    </svg>
+                </label>
+
+            </div>
+    <!--        <input type="text"/>-->
+
+        </div>
+        
+        <div class="lsm-container">
+             
+            <div class="lsm-scroll" >
+                <div class="lsm-sidebar">
+                    <ul>
+                        {volist name = "list" id="vo"}
+                        <li class="lsm-sidebar-item">
+                            <a href="javascript:;"> <span>{$vo.catname}</span><i class="my-icon lsm-sidebar-more"></i></a>
+                            <ul>
+                                <!-- <li><a href="javascript:;"><span>心理学</span></a></li>
+                                <li><a class="active"  href="javascript:;"><span>雅思英语</span></a></li> -->
+                                {volist name = "vo.child" id="item"}
+                                {if condition ="empty($item.child)"}
+                                <li class="lsm-sidebar-item">
+                                    <a href="javascript:;"><span>{$item.catname}</span></a> 
+                                </li> 
+                                {else/}      
+                                <li class="lsm-sidebar-item">
+                                    <a href="javascript:;"><i class="my-icon lsm-sidebar-icon "></i><span>{$item.catname}</span><i class="my-icon lsm-sidebar-more"></i></a>      
+                                    <ul>
+                                        {volist name = "item.child" id="sub"}
+                                        <li><a href="{:url('/lists/index')}?id={$sub.catid}&name={$sub.catname}"><span>{$sub.catname}</span></a></li>    
+                                        {/volist}
+                                    </ul>
+                                </li>
+                                {/if}
+                                {/volist}  
+                            </ul>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="outer">
+        <div class="swiper-container" id="gallery">
+            <div class="swiper-wrapper">
+                {volist name = "$list" id="v3"}
+                {volist name = "$v3.thumb" id="v4"}
+                <div class="swiper-slide"> 
+                      <a href="" catid="{$v3.catid}">
+                    <img src="/uploads/{$v4}" alt="轮播图">
+                    </a>
+                </div>
+                {/volist}
+                {/volist}
+
+                 
+            </div>
+            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+        </div>
+        
+        <div class="swiper-container swiper-container-thumbs" id="thumbs">
+            <div class="swiper-wrapper" style="transition-duration: 0ms;">
+                 
+                {volist name = "$list" id="v1"}
+                {volist name = "$v1.thumb" id="v2"}
+                <div class="swiper-slide">
+                    <img src="/uploads/{$v2}" alt="轮播图">
+                    <span class="catname">{$v1.catname}</span>
+                </div>
+                {/volist}
+                {/volist}
+                
+                
+            </div>
+            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+        </div>
+    </div>
+    <!-- 轮播图 -->
+    <script src="{__1INDEX__}/js/jquery.slimscroll.min.js"></script>
+    <script src="{__1INDEX__}/js/left-side-menu.js"></script>
+    <script type="text/javascript" src="{__1INDEX__}/js/swiper.min.js"></script>
+    <script type="text/javascript">
+        var thumbsSwiper = new Swiper('#thumbs', {
+            spaceBetween: 10,
+            slidesPerView: 5,
+            watchSlidesVisibility: true, //防止不可点击
+        })
+        var gallerySwiper = new Swiper('#gallery', {
+            effect : 'coverflow',
+            spaceBetween: 10, //缩略图间距
+            slidesPerView: 3,
+            centeredSlides: true,
+            initialSlide :2,
+            loop: true,
+            autoplay: true,
+            thumbs: {
+                swiper: thumbsSwiper,
+            }
+        })
+    </script> 
+</body>
+</html>
